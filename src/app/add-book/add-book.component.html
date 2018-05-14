@@ -1,1 +1,63 @@
 <h3>Add A Book</h3>
+<form action="" method="">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">Title</span>
+		</div>
+		<input id="title" [(ngModel)]="newBook.title" name="title" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">The book's description</span>
+		</div>
+		<textarea type="text" id="description" [(ngModel)]="newBook.description" name="description" class="form-control" aria-label="Username" aria-describedby="basic-addon1"></textarea>
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">ISBN code</span>
+		</div>
+		<input id="isbn" [(ngModel)]="newBook.isbn" name="isbn" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">Author's name</span>
+		</div>
+		<input id="author" name="author" [(ngModel)]="newBook.auther" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">Publication year</span>
+		</div>
+		<input id="pubDate" name="pubDate" [(ngModel)]="newBook.pubDate" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Genre</label>
+		</div>
+		<select id="genre" name="genre" [(ngModel)]="newBook.genre" class="custom-select" id="inputGroupSelect01">
+			<option value="Science fiction">Science fiction</option>
+			<option value="Satire">Satire</option>
+			<option value="Drama">Drama</option>
+			<option value="Action">Action</option>
+			<option value="Romance">Romance</option>
+			<option value="Mystery">Mystery</option>
+			<option value="Horror">Horror</option>
+		</select>
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">$</span>
+		</div>
+		<input id="price" name="price" [(ngModel)]="newBook.price" type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+		<div class="input-group-append">
+			<span class="input-group-text">.00</span>
+		</div>
+	</div>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">Number of copies</span>
+		</div>
+		<input id="quantity" name="quantity" [(ngModel)]="newBook.quantity" type="number" class="form-control" aria-label="quantity" aria-describedby="basic-addon1">
+	</div>
+	<button id="create" class="btn btn-primary" (click)="addBook();">Send</button>
+</form>

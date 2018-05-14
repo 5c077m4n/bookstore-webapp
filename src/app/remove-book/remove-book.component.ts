@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./remove-book.component.css']
 })
 export class RemoveBookComponent implements OnInit {
+	isbnCode: string = '';
 
-  constructor() { }
+	constructor() { }
+	ngOnInit() {}
 
-  ngOnInit() {
-  }
+	deleteBook() {
 
+	}
 }

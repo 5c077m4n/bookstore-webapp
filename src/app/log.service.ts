@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LogService {
-	private messageLog: string[] = [];
+	private _messageLog: string[] = [];
 	constructor() {}
 
 	getLogs(): string[] {
-		return this.messageLog;
+		return this._messageLog;
 	}
 	add(msg: string): string {
-		this.messageLog.push(msg);
+		this._messageLog.push(`${msg} @${(new Date()).toLocaleString()}`);
+		console.log(`${msg} @${(new Date()).toLocaleString()}`);
 		return msg;
 	}
 	clear(): void {
-		this.messageLog = [];
+		this._messageLog = [];
 	}
 	length(): number {
-		return this.messageLog.length;
+		return this._messageLog.length;
 	}
 }

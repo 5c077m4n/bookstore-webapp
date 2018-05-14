@@ -1,19 +1,13 @@
-<h3>All Books</h3>
-<ul class="book-list">
-	<li class="book-item" *ngFor="let book of books">
-		<div class="list-group" *ngIf="book">
-			<a class="list-group-item list-group-item-action active" (click)="selectedBook=book">
-				Tile: "{{book.title}}"
-			</a>
-			<a class="list-group-item list-group-item-action" (click)="selectedBook=book">
-				Author: {{book.author}}
-			</a>
-			<a class="list-group-item list-group-item-action" (click)="selectedBook=book">
-				ISBN code: {{book.isbn}}
-			</a>
+<form *ngIf="!selectedBook">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">ISBN Code</span>
 		</div>
-	</li>
-</ul>
+		<input id="isbn" name="isbn" type="text" [(ngModel)]="isbnCode" class="form-control" aria-label="ISBN" aria-describedby="basic-addon1">
+	</div>
+	<button id="find-book" class="btn btn-primary" (click)="findBook();">Search</button>
+</form>
+
 <ul class="list-group" *ngIf="selectedBook">
 	<li class="list-group-item active">Tile: {{selectedBook.title}}</li>
 	<li class="list-group-item">Author: {{selectedBook.author}}</li>
