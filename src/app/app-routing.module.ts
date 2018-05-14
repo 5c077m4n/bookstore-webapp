@@ -5,14 +5,17 @@ import { RouterModule, Routes } from '@angular/router';
 import {BooksComponent} from './books/books.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-	{path: '/dashboard', component: BooksComponent}
-	{ path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
+	{path: '', component: BooksComponent},
+	{ path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
 	imports: [
-		CommonModule
+		CommonModule,
+		RouterModule.forRoot(routes)
+	],
+	exports: [
+		RouterModule
 	],
 	declarations: []
 })

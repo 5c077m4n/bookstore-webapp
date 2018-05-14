@@ -1,3 +1,10 @@
-<p>
-  books works!
-</p>
+<ul class="book-list">
+	<li class="book-item" *ngFor="let book of books">
+		<div *ngIf="book">
+			<h2>Title: {{book.title}}</h2>
+			<p>Description: {{book.description}}</p>
+			<p>Price: ${{book.price}}</p>
+			<p>Quantity: {{book.quantity}}</p>
+		</div>
+	</li>
+</ul>
