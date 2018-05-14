@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import {BooksComponent} from './books/books.component';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
-	{path: '', component: BooksComponent},
+	{path: '', component: HomeComponent},
 	{ path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

@@ -9,6 +9,9 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { BooksComponent } from './books/books.component';
 import {LogService} from './log.service';
 import {BookstoreService} from './bookstore.service';
+import { HomeComponent } from './home/home.component';
+import { AddBookComponent } from './add-book/add-book.component';
+import { RemoveBookComponent } from './remove-book/remove-book.component';
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import {BookstoreService} from './bookstore.service';
 	declarations: [
 		AppComponent,
 		BookDetailsComponent,
-		BooksComponent
+		BooksComponent,
+		HomeComponent,
+		AddBookComponent,
+		RemoveBookComponent
 	],
 	bootstrap: [AppComponent]
 })

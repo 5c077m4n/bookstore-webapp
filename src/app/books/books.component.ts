@@ -11,6 +11,8 @@ import { Book } from '../book';
 
 export class BooksComponent implements OnInit {
 	books: Book[] = [];
+	selectedBook: Book;
+
 	constructor(private bookstoreService: BookstoreService) {}
 	ngOnInit() {
 		this.getBooks();
@@ -25,13 +27,11 @@ export class BooksComponent implements OnInit {
 		if(!title || !isbn || !price) return;
 		this.bookstoreService
 			.addBook({title, description, isbn, author, pubDate, genre, price, quantity} as Book)
-			.subscribe(hero => {
-				this.books.push(hero);
-			});
+			.subscribe(book => this.books.push(book));
 	}
 
 	delete(book: Book): void {
-		this.books = this.books.filter(bk => bk !== book);
+		this.books = this.books.filter(data => data !== book);
 		this.bookstoreService.deleteBook(book).subscribe();
 	}
 }
