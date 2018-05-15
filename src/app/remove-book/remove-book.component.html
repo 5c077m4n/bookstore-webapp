@@ -4,7 +4,7 @@
 		<div class="input-group-prepend">
 			<span class="input-group-text" id="basic-addon1">ISBN Code</span>
 		</div>
-		<input id="isbn" name="isbn" type="text" [(ngModel)]="isbnCode" class="form-control" aria-label="ISBN" aria-describedby="basic-addon1">
+		<input id="isbn" name="isbn" type="text" [(ngModel)]="isbnCode" maxlength="15" class="form-control" aria-label="ISBN" aria-describedby="basic-addon1">
 	</div>
-	<button id="delete-book" class="btn btn-primary">Remove Book</button>
+	<button id="delete-book" class="btn btn-primary" (click)="deleteBook()">Remove Book</button>
 </form>

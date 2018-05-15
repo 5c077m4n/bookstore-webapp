@@ -15,7 +15,10 @@ export class AddBookComponent implements OnInit {
 	constructor(private bookstoreService: BookstoreService) {}
 	ngOnInit() {}
 
-	addBook() {
-		this.bookstoreService.addBook(this.newBook as Book);
+	addBook(title: string, description: string, isbn: string, author: string, pubDate: Date, genre: string, price: number, quantity: number): void {
+		if(!title || !isbn || !price) return;
+		this.bookstoreService
+			.addBook({title, description, isbn, author, pubDate, genre, price, quantity} as Book)
+			.subscribe();
 	}
 }

@@ -24,12 +24,12 @@ export class BookstoreService {
 		return this.http.get<Object>('http://0.0.0.0:3000')
 			.pipe(
 				catchError(this.handleErrorThrow),
-				retryWhen(errors => errors.pipe(delay(2000), take(5)))
+				retryWhen(errors => errors.pipe(delay(30000), take(10)))
 			)
 			.subscribe(_ => console.log('The connection to the API has been successful.'));
 	}
 
-	/** GET all books from the server */
+	/** @method GET all books from the server */
 	getBooks(): Observable<Book[]> {
 		return this.http.get<Book[]>(this._apiUrl)
 			.pipe(
@@ -37,14 +37,14 @@ export class BookstoreService {
 				catchError(this.handleError('getBooks', []))
 			);
 	}
-	/** GET book by ISBN. Will 404 if id not found */
+	/** @method GET book by ISBN. Will 404 if id not found */
 	getBook(isbn: string): Observable<Book> {
 		return this.http.get<Book>(`${this._apiUrl}/${isbn}`).pipe(
 			tap(_ => this.log(`fetched book ISBN #${isbn}`)),
 			catchError(this.handleError<Book>(`getBook ISBN #${isbn}`))
 		);
 	}
-	/** GET hero by id. Return `undefined` when id not found */
+	/** @method GET hero by id. Return `undefined` when id not found */
 	getBookNo404<Data>(isbn: string): Observable<Book> {
 		return this.http.get<Book[]>(`${this._apiUrl}/?isbn=${isbn}`)
 			.pipe(
@@ -53,25 +53,24 @@ export class BookstoreService {
 				catchError(this.handleError<Book>(`getBook ISBN #${isbn}`))
 			);
 	}
-	/** POST: add a new hero to the server */
+	/** @method POST: add a new hero to the server */
 	addBook(book: Book): Observable<Book> {
 		return this.http.post<Book>(this._apiUrl, book, httpOptions).pipe(
 			tap((book: Book) => this.log(`Added book w/ ISBN #${book.isbn}`)),
 			catchError(this.handleError<Book>('addBook'))
 		);
 	}
-	/** PUT: update the book on the server */
+	/** @method PUT: update the book on the server */
 	updateBook(book: Book): Observable<any> {
-		return this.http.put(this._apiUrl, book, httpOptions).pipe(
+		return this.http.put<Book>(this._apiUrl, book, httpOptions).pipe(
 			tap(_ => this.log(`Updated Book ISBN #${book.isbn}`)),
 			catchError(this.handleError<any>('updateBook'))
 		);
 	}
-	/** DELETE: delete the book from the server */
+	/** @method DELETE: delete the book from the server */
 	deleteBook(bookOrCode: Book | string): Observable<Book> {
 		const isbn = (typeof bookOrCode === 'string')? bookOrCode : bookOrCode.isbn;
-		const url = `${this._apiUrl}/${isbn}`;
-		return this.http.delete<Book>(url, httpOptions).pipe(
+		return this.http.delete<Book>(`${this._apiUrl}/${isbn}`, httpOptions).pipe(
 			tap(_ => this.log(`Deleted book ISBN #${isbn}`)),
 			catchError(this.handleError<Book>('deleteBook'))
 		);
@@ -91,7 +90,7 @@ export class BookstoreService {
 
 	/**
 	 * @function handleErrorThrow - Handle HTTP operations that failed.
-	 * @param error - an error of type Observable.
+	 * @param error - an error of type ErrorObservable.
 	 */
 	private handleErrorThrow(error: HttpErrorResponse) {
 		if (error.error instanceof ErrorEvent) {

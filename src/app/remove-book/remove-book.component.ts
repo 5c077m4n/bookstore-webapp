@@ -14,6 +14,6 @@ export class RemoveBookComponent implements OnInit {
 	ngOnInit() {}
 
 	deleteBook() {
-		this.bookstoreSevice.deleteBook(this.isbnCode);
+		this.bookstoreSevice.deleteBook(this.isbnCode).subscribe();
 	}
 }
