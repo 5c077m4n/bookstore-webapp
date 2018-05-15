@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap, retryWhen, delay, take } from 'rxjs/operators';
 
 import {Book} from './book';
 import {LogService} from './log.service';
@@ -13,26 +13,25 @@ const httpOptions = {
 
 @Injectable()
 export class BookstoreService {
-	private API_URL = 'http://0.0.0.0:3000/books';
+	private _apiUrl = 'http://0.0.0.0:3000/books';
+
 	constructor(
 		private http: HttpClient,
 		private logService: LogService
 	) {}
 
 	testConnection() {
-		if(this.http.get<string>('http://0.0.0.0:3000')) {
-			this.log('Connection established');
-			return true;
-		}
-		else {
-			this.log('There is a problem with the connection to the API');
-			return false;
-		}
+		return this.http.get<Object>('http://0.0.0.0:3000')
+			.pipe(
+				catchError(this.handleErrorThrow),
+				retryWhen(errors => errors.pipe(delay(2000), take(5)))
+			)
+			.subscribe(_ => console.log('The connection to the API has been successful.'));
 	}
 
 	/** GET all books from the server */
 	getBooks(): Observable<Book[]> {
-		return this.http.get<Book[]>(this.API_URL)
+		return this.http.get<Book[]>(this._apiUrl)
 			.pipe(
 				tap(_ => this.log('Fetched all books')),
 				catchError(this.handleError('getBooks', []))
@@ -40,39 +39,38 @@ export class BookstoreService {
 	}
 	/** GET book by ISBN. Will 404 if id not found */
 	getBook(isbn: string): Observable<Book> {
-		return this.http.get<Book>(`${this.API_URL}/${isbn}`).pipe(
+		return this.http.get<Book>(`${this._apiUrl}/${isbn}`).pipe(
 			tap(_ => this.log(`fetched book ISBN #${isbn}`)),
 			catchError(this.handleError<Book>(`getBook ISBN #${isbn}`))
 		);
 	}
 	/** GET hero by id. Return `undefined` when id not found */
 	getBookNo404<Data>(isbn: string): Observable<Book> {
-		const url = `${this.API_URL}/?isbn=${isbn}`;
-		return this.http.get<Book[]>(url)
+		return this.http.get<Book[]>(`${this._apiUrl}/?isbn=${isbn}`)
 			.pipe(
 				map(books => books[0]),
 				tap(bks => this.log(`${bks? `Fetched` : `Did not find`} book ISBN #${isbn}`)),
-				catchError(this.handleError<Book>(`getBook ISBN number #${isbn}`))
+				catchError(this.handleError<Book>(`getBook ISBN #${isbn}`))
 			);
 	}
 	/** POST: add a new hero to the server */
 	addBook(book: Book): Observable<Book> {
-		return this.http.post<Book>(this.API_URL, book, httpOptions).pipe(
+		return this.http.post<Book>(this._apiUrl, book, httpOptions).pipe(
 			tap((book: Book) => this.log(`Added book w/ ISBN #${book.isbn}`)),
 			catchError(this.handleError<Book>('addBook'))
 		);
 	}
 	/** PUT: update the book on the server */
 	updateBook(book: Book): Observable<any> {
-		return this.http.put(this.API_URL, book, httpOptions).pipe(
+		return this.http.put(this._apiUrl, book, httpOptions).pipe(
 			tap(_ => this.log(`Updated Book ISBN #${book.isbn}`)),
 			catchError(this.handleError<any>('updateBook'))
 		);
 	}
 	/** DELETE: delete the book from the server */
-	deleteBook(book: Book | string): Observable<Book> {
-		const isbn = (typeof book === 'string')? book : book.isbn;
-		const url = `${this.API_URL}/${isbn}`;
+	deleteBook(bookOrCode: Book | string): Observable<Book> {
+		const isbn = (typeof bookOrCode === 'string')? bookOrCode : bookOrCode.isbn;
+		const url = `${this._apiUrl}/${isbn}`;
 		return this.http.delete<Book>(url, httpOptions).pipe(
 			tap(_ => this.log(`Deleted book ISBN #${isbn}`)),
 			catchError(this.handleError<Book>('deleteBook'))
@@ -80,17 +78,35 @@ export class BookstoreService {
 	}
 
 	/**
-	 * @function handleError<T> - Handle HTTP operations that failed and let the app continue
-	 * @param operation - name of the operation that failed
-	 * @param result - optional value to return as the observable result
+	 * @function handleError<T> - Handle HTTP operations that failed and let the app continue.
+	 * @param operation - name of the operation that failed.
+	 * @param result - optional value to return as the observable result.
 	 */
-	private handleError<T>(operation = 'operation', result?: T) {
+	private handleError<T>(operation: string = 'operation', result?: T) {
 		return (error: any): Observable<T> => {
-			console.error(error);
 			this.log(`${operation} failed: ${error.message}`);
 			return of(result as T);
 		};
 	}
+
+	/**
+	 * @function handleErrorThrow - Handle HTTP operations that failed.
+	 * @param error - an error of type Observable.
+	 */
+	private handleErrorThrow(error: HttpErrorResponse) {
+		if (error.error instanceof ErrorEvent) {
+			/** A client-side or network error occurred.
+			 * Handle it accordingly. */
+			console.error(`An error occurred: ${error.error.message}`);
+		}
+		else {
+			/** The backend returned an unsuccessful response code.
+			 * The response body may contain clues as to what went wrong, */
+			console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+		}
+		/** return an observable with a user-facing error message */
+		return throwError('Something bad happened; please try again later.');
+	};
 
 	/** Log a BookService message with the LogService */
 	private log(message: string) {

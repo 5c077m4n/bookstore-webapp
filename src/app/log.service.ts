@@ -9,8 +9,8 @@ export class LogService {
 		return this._messageLog;
 	}
 	add(msg: string): string {
-		this._messageLog.push(`${msg} @${(new Date()).toLocaleString()}`);
-		console.log(`${msg} @${(new Date()).toLocaleString()}`);
+		this._messageLog.push(`${msg} @ ${(new Date()).toLocaleString()}`);
+		console.log(`${msg} @ ${(new Date()).toLocaleString()}`);
 		return msg;
 	}
 	clear(): void {

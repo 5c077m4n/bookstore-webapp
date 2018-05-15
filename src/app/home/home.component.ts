@@ -14,6 +14,6 @@ export class HomeComponent implements OnInit {
 
 	constructor(private bookstoreService: BookstoreService) {}
 	ngOnInit() {
-		this.bookstoreService.testConnection();
+		this.bookstoreService.testConnection()
 	}
 }
