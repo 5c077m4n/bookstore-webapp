@@ -1,0 +1,11 @@
+<ul class="list-group" *ngIf="isSelectedBookEmpty()">
+	<li class="list-group-item active">Tile: {{selectedBook.title}}</li>
+	<li class="list-group-item">Author: {{selectedBook.author}}</li>
+	<li class="list-group-item">What its about: {{selectedBook.description}}</li>
+	<li class="list-group-item">Published in: {{selectedBook.pubDate}}</li>
+	<li class="list-group-item">Genre: {{selectedBook.genre}}</li>
+	<li class="list-group-item">Price: ${{selectedBook.price}}</li>
+	<li class="list-group-item">ISBN code: {{selectedBook.isbn}}</li>
+	<li class="list-group-item">How many are in stock: {{selectedBook.quantity}}</li>
+	<li><a type="button" class="btn btn-primary" (click)="resetSelectedBook();" href="/">Home</a></li>
+</ul>

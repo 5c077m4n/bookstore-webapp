@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BookstoreService } from '../bookstore.service';
 import {Book} from '../book';
+import { BookstoreService } from '../bookstore.service';
 
 @Component({
 	selector: 'app-add-book',
@@ -10,15 +10,18 @@ import {Book} from '../book';
 })
 
 export class AddBookComponent implements OnInit {
-	newBook = {};
+	newBook: Book = {} as Book;
+	addedBook: Book;
 
 	constructor(private bookstoreService: BookstoreService) {}
 	ngOnInit() {}
 
-	addBook(title: string, description: string, isbn: string, author: string, pubDate: Date, genre: string, price: number, quantity: number): void {
-		if(!title || !isbn || !price) return;
-		this.bookstoreService
-			.addBook({title, description, isbn, author, pubDate, genre, price, quantity} as Book)
-			.subscribe();
+	addBook(): void {
+		if(!this.newBook.title || !this.newBook.isbn || !this.newBook.price) {
+			console.warn('Not all required fields have been filled.');
+			return;
+		}
+		this.bookstoreService.addBook(this.newBook)
+			.subscribe(book => this.addedBook = book);
 	}
 }

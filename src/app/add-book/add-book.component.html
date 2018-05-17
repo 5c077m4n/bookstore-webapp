@@ -1,5 +1,5 @@
 <h3>Add A Book</h3>
-<form action="" method="">
+<form action="" method="" *ngIf="!addedBook">
 	<div class="input-group mb-3">
 		<div class="input-group-prepend">
 			<span class="input-group-text" id="basic-addon1">Title</span>
@@ -61,3 +61,8 @@
 	</div>
 	<button id="create" class="btn btn-primary" (click)="addBook();">Send</button>
 </form>
+
+<div *ngIf="addedBook">
+	<h5>Book Added Successfully!</h5>
+	<app-book-details [selectedBook]="addedBook"></app-book-details>
+</div>

@@ -1,5 +1,5 @@
 <h3>All Books</h3>
-<ul class="book-list">
+<ul class="book-list" *ngIf="!selectedBook">
 	<li class="book-item" *ngFor="let book of books">
 		<div class="list-group" *ngIf="book">
 			<a class="list-group-item list-group-item-action active" (click)="selectedBook=book">
@@ -14,14 +14,5 @@
 		</div>
 	</li>
 </ul>
-<ul class="list-group" *ngIf="selectedBook">
-	<li class="list-group-item active">Tile: {{selectedBook.title}}</li>
-	<li class="list-group-item">Author: {{selectedBook.author}}</li>
-	<li class="list-group-item">What its about: {{selectedBook.description}}</li>
-	<li class="list-group-item">Published in: {{selectedBook.pubDate}}</li>
-	<li class="list-group-item">Genre: {{selectedBook.genre}}</li>
-	<li class="list-group-item">Price: ${{selectedBook.price}}</li>
-	<li class="list-group-item">ISBN code: {{selectedBook.isbn}}</li>
-	<li class="list-group-item">How many are in stock: {{selectedBook.quantity}}</li>
-	<li><button type="button" class="btn btn-primary" (click)="selectedBook=null">Close</button></li>
-</ul>
+
+<app-book-details *ngIf="selectedBook" [selectedBook]="selectedBook"></app-book-details>

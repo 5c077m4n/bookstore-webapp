@@ -8,3 +8,5 @@
 	</div>
 	<button id="delete-book" class="btn btn-primary" (click)="deleteBook()">Remove Book</button>
 </form>
+
+<app-book-details *ngIf="removedBook" [selectedBook]="removedBook"></app-book-details>

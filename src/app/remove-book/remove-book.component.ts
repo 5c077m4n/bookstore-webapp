@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import {Book} from '../book';
 import { BookstoreService } from '../bookstore.service';
 
 @Component({
@@ -9,11 +10,13 @@ import { BookstoreService } from '../bookstore.service';
 })
 export class RemoveBookComponent implements OnInit {
 	isbnCode: string = '';
+	removedBook: Book;
 
 	constructor(private bookstoreSevice: BookstoreService) {}
 	ngOnInit() {}
 
 	deleteBook() {
-		this.bookstoreSevice.deleteBook(this.isbnCode).subscribe();
+		this.bookstoreSevice.deleteBook(this.isbnCode)
+			.subscribe(book => this.removedBook = book);
 	}
 }

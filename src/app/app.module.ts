@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AddBookComponent } from './add-book/add-book.component';
 import { RemoveBookComponent } from './remove-book/remove-book.component';
 import { SearchComponent } from './search/search.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { SearchComponent } from './search/search.component';
 		HomeComponent,
 		AddBookComponent,
 		RemoveBookComponent,
-		SearchComponent
+		SearchComponent,
+		BookDetailsComponent
 	],
 	bootstrap: [AppComponent]
 })
