@@ -9,15 +9,12 @@ import {Book} from '../book';
 })
 
 export class BookDetailsComponent implements OnInit {
-	@Input() selectedBook: Book = {} as Book;
+	@Input() selectedBook: Book;
 
 	constructor() {}
 	ngOnInit() {}
 
-	isSelectedBookEmpty(): boolean {
-		return (Object.values(this.selectedBook).length > 0);
-	}
-	resetSelectedBook() {
-		this.selectedBook = {} as Book;
+	clearSelectedBook() {
+		this.selectedBook = undefined;
 	}
 }

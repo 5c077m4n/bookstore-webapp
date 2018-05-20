@@ -11,8 +11,7 @@ const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-@Injectable()
-export class BookstoreService {
+@Injectable() export class BookstoreService {
 	// private _apiDomain = 'http://ec2-54-166-65-159.compute-1.amazonaws.com:3000';
 	private _apiDomain = '/api';
 	private _apiUrl = this._apiDomain + '/books';
@@ -55,7 +54,7 @@ export class BookstoreService {
 				catchError(this.handleError<Book>(`getBook ISBN #${isbn}`))
 			);
 	}
-	/** @method POST: add a new hero to the server */
+	/** @method POST: add a new book to the server */
 	addBook(book: Book): Observable<Book> {
 		return this.http.post<Book>(this._apiUrl, book, httpOptions).pipe(
 			tap(_ => this.log(`Added book w/ ISBN #${book.isbn}`)),

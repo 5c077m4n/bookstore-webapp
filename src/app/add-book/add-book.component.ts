@@ -17,7 +17,7 @@ export class AddBookComponent implements OnInit {
 	ngOnInit() {}
 
 	addBook(): void {
-		if(!this.newBook.title || !this.newBook.isbn || !this.newBook.price) {
+		if(!this.newBook.title.trim() || !this.newBook.isbn.trim() || !this.newBook.price) {
 			console.warn('Not all required fields have been filled.');
 			return;
 		}

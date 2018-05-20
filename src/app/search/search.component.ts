@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit {
 	ngOnInit() {}
 
 	findBook() {
+		this.isbnCode = this.isbnCode.trim();
+		if(!this.isbnCode) return;
 		this.bookstoreService.getBook(this.isbnCode)
 			.subscribe(book => this.selectedBook = book);
 	}

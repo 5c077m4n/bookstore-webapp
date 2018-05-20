@@ -9,7 +9,7 @@
 		"pathRewrite": {
 			"^/api": ""
 		},
-		"changeOrigin": true,
+		"changeOrigin": false,
 		"logLevel": "debug"
 	}
 }
